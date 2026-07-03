@@ -6,12 +6,19 @@
     <title>Premium Transfer Request</title>
     <style>
         :root {
-            --primary: #0A2540; /* Premium Deep Navy */
-            --accent: #00D4B2;  /* Luxury Mint/Cyan Accent */
-            --opay-green: #00B87B; /* Official OPay Green */
+            --primary: #0A2540; 
+            --accent: #00D4B2;  
+            --opay-green: #00B87B;
+            --palmpay-purple: #7433FF;
             --bg-gradient: linear-gradient(135deg, #F4F7FA 0%, #E9EFF5 100%);
             --text-main: #1C2A38;
             --text-muted: #627D98;
+            --active-color: var(--opay-green);
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -23,101 +30,149 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
+            padding: 20px;
         }
 
         .card {
-            background: #FFFFFF;
-            width: 350px;
-            max-width: 90%;
-            padding: 35px 25px;
-            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            width: 360px;
+            max-width: 100%;
+            padding: 35px 24px 28px 24px;
+            border-radius: 28px;
             text-align: center;
-            box-shadow: 0 20px 40px rgba(10, 37, 64, 0.05), 0 1px 3px rgba(0, 0, 0, 0.02);
-            border: 1px solid rgba(10, 37, 64, 0.05);
+            box-shadow: 0 24px 48px rgba(10, 37, 64, 0.06), 0 1px 4px rgba(0, 0, 0, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.7);
             position: relative;
-            transition: all 0.3s ease;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s ease;
         }
 
         .icon-container {
-            width: 60px;
-            height: 60px;
-            background: rgba(10, 37, 64, 0.05);
+            width: 64px;
+            height: 64px;
+            background: #F0F4F8;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             margin: 0 auto 20px auto;
             color: var(--primary);
-            font-size: 24px;
+            font-size: 26px;
+            transition: all 0.3s ease;
         }
 
         h1 {
             color: var(--primary);
             font-size: 24px;
             font-weight: 700;
-            margin: 0 0 12px 0;
+            margin: 0 0 8px 0;
             letter-spacing: -0.5px;
         }
 
         p {
             color: var(--text-muted);
-            font-size: 15px;
+            font-size: 14px;
             line-height: 1.6;
-            margin: 0 0 24px 0;
+            margin: 0 0 20px 0;
+        }
+
+        /* Platform Selector Tabs */
+        .gateway-selector {
+            display: flex;
+            background: #E2E8F0;
+            padding: 4px;
+            border-radius: 14px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .gateway-option {
+            flex: 1;
+            padding: 10px 0;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            z-index: 2;
+            transition: color 0.3s ease;
+        }
+
+        .gateway-option.active {
+            color: #FFFFFF;
+        }
+
+        .selector-bg {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: calc(50% - 4px);
+            height: calc(100% - 8px);
+            background: var(--active-color);
+            border-radius: 10px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
         }
 
         .amount-display {
-            background: #F8FAFC;
+            background: linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 100%);
             border: 1px dashed #CBD5E1;
-            padding: 15px;
-            border-radius: 16px;
-            margin-bottom: 25px;
+            padding: 16px 15px;
+            border-radius: 20px;
+            margin-bottom: 24px;
         }
 
         .amount-title {
-            font-size: 12px;
+            font-size: 11px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             color: var(--text-muted);
             margin-bottom: 4px;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .amount-value {
-            font-size: 28px;
+            font-size: 30px;
             font-weight: 800;
             color: var(--primary);
+            letter-spacing: -0.5px;
         }
 
         .buttons {
-            height: 48px;
+            height: 52px;
             position: relative;
             display: flex;
             justify-content: center;
-            gap: 12px;
+            gap: 14px;
+            margin-bottom: 20px;
         }
 
         button {
             border: none;
-            padding: 0 32px;
-            height: 48px;
-            border-radius: 12px;
-            font-size: 15px;
+            padding: 0 36px;
+            height: 52px;
+            border-radius: 16px;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         #yesBtn {
             background: var(--primary);
             color: #FFFFFF;
-            box-shadow: 0 4px 12px rgba(10, 37, 64, 0.15);
+            box-shadow: 0 6px 16px rgba(10, 37, 64, 0.12);
+            width: 150px;
         }
 
         #yesBtn:hover {
             transform: translateY(-2px);
             background: #13375B;
-            box-shadow: 0 6px 20px rgba(10, 37, 64, 0.2);
         }
 
         #noBtn {
@@ -125,35 +180,60 @@
             color: var(--text-main);
             position: absolute;
             border: 1px solid #E2E8F0;
+            padding: 0 28px;
         }
 
         #smallText {
             font-size: 13px;
             color: var(--text-muted);
-            margin-top: 20px;
+            margin: 0;
             min-height: 20px;
             font-weight: 500;
+        }
+
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 0.8s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
 
     <div class="card" id="cardContainer">
-        <div class="icon-container">💎</div>
+        <div class="icon-container" id="cardIcon">💎</div>
         <h1>Priority Request</h1>
         <p>An authorized request requires your immediate attention and approval.</p>
         
+        <!-- Premium Method Switcher -->
+        <div class="gateway-selector">
+            <div class="gateway-option active" id="optOPay" onclick="switchGateway('opay')">OPay</div>
+            <div class="gateway-option" id="optPalmPay" onclick="switchGateway('palmpay')">PalmPay</div>
+            <div class="selector-bg" id="selectorBg"></div>
+        </div>
+
         <div class="amount-display">
             <div class="amount-title">Requested Amount</div>
             <div class="amount-value">₦2,000,000.00</div>
         </div>
 
-        <p style="color: var(--primary); font-weight: 600; margin-bottom: 20px;">
+        <p style="color: var(--primary); font-weight: 600; margin-bottom: 24px;">
             Destiny, will you approve this transfer? 😹
         </p>
 
         <div class="buttons">
-            <button id="yesBtn">Approve ✨</button>
+            <button id="yesBtn">
+                <span class="spinner" id="btnSpinner"></span>
+                <span id="btnText">Approve ✨</span>
+            </button>
             <button id="noBtn">Decline</button>
         </div>
 
@@ -165,15 +245,51 @@
         const noBtn = document.getElementById('noBtn');
         const smallText = document.getElementById('smallText');
         const cardContainer = document.getElementById('cardContainer');
+        const btnSpinner = document.getElementById('btnSpinner');
+        const btnText = document.getElementById('btnText');
+        const selectorBg = document.getElementById('selectorBg');
+        const optOPay = document.getElementById('optOPay');
+        const optPalmPay = document.getElementById('optPalmPay');
 
         let noCount = 0;
+        let selectedGateway = 'opay';
 
+        // Links Object structured elegantly for target routing
+        const links = {
+            opay: {
+                ios: "https://apps.apple.com/ng/app/opay-beyond-banking/id1463776084",
+                android: "https://play.google.com/store/apps/details?id=team.opay.pay"
+            },
+            palmpay: {
+                ios: "https://apps.apple.com/ng/app/palmpay-transfers-bills/id1479656820",
+                android: "https://play.google.com/store/apps/details?id=com.transsnet.palmpay" // Official PalmPay PlayStore fallback
+            }
+        };
+
+        // Smoothly switches accent branding colors between OPay green and PalmPay purple
+        function switchGateway(gateway) {
+            if(noBtn.style.position === 'fixed') return; // Disable switching if button is already running away
+            selectedGateway = gateway;
+            if (gateway === 'opay') {
+                optOPay.classList.add('active');
+                optPalmPay.classList.remove('active');
+                selectorBg.style.left = '4px';
+                document.documentElement.style.setProperty('--active-color', 'var(--opay-green)');
+            } else {
+                optPalmPay.classList.add('active');
+                optOPay.classList.remove('active');
+                selectorBg.style.left = 'calc(50% + 0px)';
+                document.documentElement.style.setProperty('--active-color', 'var(--palmpay-purple)');
+            }
+        }
+
+        // Hardware Runaway Configuration
         function moveButton() {
-            const maxLeft = window.innerWidth - noBtn.offsetWidth;
-            const maxTop = window.innerHeight - noBtn.offsetHeight;
+            const maxLeft = window.innerWidth - noBtn.offsetWidth - 20;
+            const maxTop = window.innerHeight - noBtn.offsetHeight - 20;
 
-            const randomLeft = Math.floor(Math.random() * maxLeft);
-            const randomTop = Math.floor(Math.random() * maxTop);
+            const randomLeft = Math.max(20, Math.floor(Math.random() * maxLeft));
+            const randomTop = Math.max(20, Math.floor(Math.random() * maxTop));
 
             noBtn.style.position = 'fixed';
             noBtn.style.left = randomLeft + 'px';
@@ -201,28 +317,59 @@
             moveButton();
         });
 
+        // Smart Platform Detection Agent
+        function getTargetUrl() {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            // Checks for iPad, iPhone, or iPod devices
+            const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+            
+            if (isIOS) {
+                return links[selectedGateway].ios;
+            } else {
+                return links[selectedGateway].android;
+            }
+        }
+
         yesBtn.addEventListener('click', () => {
-            cardContainer.style.border = "1px solid var(--opay-green)";
-            cardContainer.innerHTML = `
-                <div class="icon-container" style="background: rgba(0,184,123,0.1); color: var(--opay-green);">✅</div>
-                <h1>Transfer Authorized! 😍</h1>
-                <p>Premium request successfully approved by Destiny.</p>
+            yesBtn.style.pointerEvents = 'none';
+            if(noBtn) noBtn.style.display = 'none';
+            
+            btnSpinner.style.display = 'block';
+            btnText.textContent = "Processing...";
+            smallText.textContent = "Routing secure interface...";
+            smallText.style.color = "var(--text-muted)";
 
-                <div class="amount-display" style="background:#F0FDF4;border-color:#BBF7D0;">
-                    <div class="amount-title" style="color:#16A34A;">Status</div>
-                    <div class="amount-value" style="color:#16A34A;font-size:22px;">
-                        Redirecting to OPay...
-                    </div>
-                </div>
-
-                <p style="color: var(--text-muted); font-size:14px; margin-bottom:10px;">
-                    Opening OPay to complete the ₦2,000,000 payment...
-                </p>
-            `;
+            const targetStoreUrl = getTargetUrl();
+            const brandColor = selectedGateway === 'opay' ? 'var(--opay-green)' : 'var(--palmpay-purple)';
+            const appName = selectedGateway === 'opay' ? 'OPay' : 'PalmPay';
 
             setTimeout(() => {
-                window.location.href = "https://play.google.com/store/apps/details?id=com.opay.android";
-            }, 2000);
+                cardContainer.style.borderColor = brandColor;
+                cardContainer.style.transform = "scale(1.02)";
+                
+                cardContainer.innerHTML = `
+                    <div class="icon-container" style="background: rgba(10,37,64,0.05); color: ${brandColor}; box-shadow: none;">✅</div>
+                    <h1>Transfer Authorized! 😍</h1>
+                    <p>Premium request successfully approved by Destiny.</p>
+
+                    <div class="amount-display" style="background: #F8FAFC; border-color: #CBD5E1;">
+                        <div class="amount-title">Status</div>
+                        <div class="amount-value" style="color: ${brandColor}; font-size: 22px;">
+                            Redirecting to ${appName}...
+                        </div>
+                    </div>
+
+                    <p style="color: var(--text-muted); font-size: 14px; margin: 0;">
+                        Opening your secure app environment to complete the ₦2,000,000 payment...
+                    </p>
+                `;
+
+                // Fires off to the targeted store destination link natively
+                setTimeout(() => {
+                    window.location.href = targetStoreUrl;
+                }, 1800);
+
+            }, 1500);
         });
     </script>
 </body>
