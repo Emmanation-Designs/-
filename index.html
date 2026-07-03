@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Transfer Request</title>
+    <style>
+        :root {
+            --primary: #0A2540; /* Premium Deep Navy */
+            --accent: #00D4B2;  /* Luxury Mint/Cyan Accent */
+            --bg-gradient: linear-gradient(135deg, #F4F7FA 0%, #E9EFF5 100%);
+            --text-main: #1C2A38;
+            --text-muted: #627D98;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            background: var(--bg-gradient);
+            font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .card {
+            background: #FFFFFF;
+            width: 350px;
+            max-width: 90%;
+            padding: 35px 25px;
+            border-radius: 24px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(10, 37, 64, 0.05), 0 1px 3px rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(10, 37, 64, 0.05);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .icon-container {
+            width: 60px;
+            height: 60px;
+            background: rgba(10, 37, 64, 0.05);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px auto;
+            color: var(--primary);
+            font-size: 24px;
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0 0 12px 0;
+            letter-spacing: -0.5px;
+        }
+
+        p {
+            color: var(--text-muted);
+            font-size: 15px;
+            line-height: 1.6;
+            margin: 0 0 24px 0;
+        }
+
+        .amount-display {
+            background: #F8FAFC;
+            border: 1px dashed #CBD5E1;
+            padding: 15px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+        }
+
+        .amount-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .amount-value {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .buttons {
+            height: 48px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        button {
+            border: none;
+            padding: 0 32px;
+            height: 48px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #yesBtn {
+            background: var(--primary);
+            color: #FFFFFF;
+            box-shadow: 0 4px 12px rgba(10, 37, 64, 0.15);
+        }
+
+        #yesBtn:hover {
+            transform: translateY(-2px);
+            background: #13375B;
+            box-shadow: 0 6px 20px rgba(10, 37, 64, 0.2);
+        }
+
+        #noBtn {
+            background: #F1F5F9;
+            color: var(--text-main);
+            position: absolute;
+            border: 1px solid #E2E8F0;
+        }
+
+        #smallText {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 20px;
+            min-height: 20px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card" id="cardContainer">
+        <div class="icon-container">💎</div>
+        <h1>Priority Request</h1>
+        <p>An authorized request requires your immediate attention and approval.</p>
+        
+        <div class="amount-display">
+            <div class="amount-title">Requested Amount</div>
+            <div class="amount-value">2,000.00</div>
+        </div>
+
+        <p style="color: var(--primary); font-weight: 600; margin-bottom: 20px;">
+            Destiny, will you approve this transfer? 😹
+        </p>
+
+        <div class="buttons">
+            <button id="yesBtn">Approve ✨</button>
+            <button id="noBtn">Decline</button>
+        </div>
+
+        <p id="smallText">Secured premium transaction gateway.</p>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const smallText = document.getElementById('smallText');
+        const cardContainer = document.getElementById('cardContainer');
+
+        let noCount = 0;
+
+        function moveButton() {
+            const maxLeft = window.innerWidth - noBtn.offsetWidth;
+            const maxTop = window.innerHeight - noBtn.offsetHeight;
+
+            const randomLeft = Math.floor(Math.random() * maxLeft);
+            const randomTop = Math.floor(Math.random() * maxTop);
+
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = randomLeft + 'px';
+            noBtn.style.top = randomTop + 'px';
+
+            noCount++;
+
+            if (noCount === 1) {
+                smallText.textContent = "Error: Decline function unresponsive. Try again? 😏";
+                smallText.style.color = "#EF4444";
+            } else if (noCount === 2) {
+                smallText.textContent = "System alert: Denying this request breaks my heart. 💔";
+            } else if (noCount === 3) {
+                smallText.textContent = "Come on, it's just 2k! Click Approve 💸";
+            } else if (noCount === 4) {
+                smallText.textContent = "Decline button is officially on strike. 🛑";
+            } else if (noCount >= 5) {
+                smallText.textContent = "Fine, I disabled the button. Only 'Approve' works now! ✨";
+            }
+        }
+
+        noBtn.addEventListener('mouseover', moveButton);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveButton();
+        });
+
+        yesBtn.addEventListener('click', () => {
+            cardContainer.style.border = "1px solid var(--accent)";
+            cardContainer.innerHTML = `
+                <div class="icon-container" style="background: rgba(0, 212, 178, 0.1); color: var(--accent);">✅</div>
+                <h1>Transfer Authorized! 😍</h1>
+                <p>Premium request successfully cleared by Destiny.</p>
+                <div class="amount-display" style="background: #F0FDF4; border-color: #BBF7D0;">
+                    <div class="amount-title" style="color: #16A34A;">Status</div>
+                    <div class="amount-value" style="color: #16A34A; font-size: 22px;">Awaiting 2k Cash 😹💸</div>
+                </div>
+                <p style="color: var(--text-muted); font-size: 14px;">Thank you for your elite generosity!</p>
+            `;
+        });
+    </script>
+</body>
+</html>
