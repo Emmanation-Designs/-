@@ -134,27 +134,6 @@
             min-height: 20px;
             font-weight: 500;
         }
-
-        /* OPay Link Button styling */
-        .opay-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--opay-green);
-            color: white;
-            text-decoration: none;
-            padding: 14px 32px;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 700;
-            margin-top: 15px;
-            box-shadow: 0 4px 14px rgba(0, 184, 123, 0.3);
-            transition: transform 0.2s ease;
-        }
-
-        .opay-link:hover {
-            transform: scale(1.05);
-        }
     </style>
 </head>
 <body>
@@ -225,22 +204,25 @@
         yesBtn.addEventListener('click', () => {
             cardContainer.style.border = "1px solid var(--opay-green)";
             cardContainer.innerHTML = `
-                <div class="icon-container" style="background: rgba(0, 184, 123, 0.1); color: var(--opay-green);">✅</div>
+                <div class="icon-container" style="background: rgba(0,184,123,0.1); color: var(--opay-green);">✅</div>
                 <h1>Transfer Authorized! 😍</h1>
                 <p>Premium request successfully approved by Destiny.</p>
-                
-                <div class="amount-display" style="background: #F0FDF4; border-color: #BBF7D0;">
-                    <div class="amount-title" style="color: #16A34A;">Status</div>
-                    <div class="amount-value" style="color: #16A34A; font-size: 22px;">Pending OPay Clearance</div>
+
+                <div class="amount-display" style="background:#F0FDF4;border-color:#BBF7D0;">
+                    <div class="amount-title" style="color:#16A34A;">Status</div>
+                    <div class="amount-value" style="color:#16A34A;font-size:22px;">
+                        Redirecting to OPay...
+                    </div>
                 </div>
 
-                <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 10px;">
-                    Click below to finalize the ₦2,000,000 payment inside your app!
+                <p style="color: var(--text-muted); font-size:14px; margin-bottom:10px;">
+                    Opening OPay to complete the ₦2,000,000 payment...
                 </p>
-
-                <!-- This link uses the official OPay mobile app protocol to open the app -->
-                <a href="opay://" class="opay-link">Proceed to your OPay 💸</a>
             `;
+
+            setTimeout(() => {
+                window.location.href = "https://play.google.com/store/apps/details?id=com.opay.android";
+            }, 2000);
         });
     </script>
 </body>
