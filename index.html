@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Transfer Request</title>
+    <title>Secure Gateway Portal</title>
     <style>
         :root {
             --primary: #0A2540; 
-            --accent: #00D4B2;  
+            --primary-light: #1E3A8A;
             --opay-green: #00B87B;
             --palmpay-purple: #7433FF;
-            --bg-gradient: linear-gradient(135deg, #F4F7FA 0%, #E9EFF5 100%);
-            --text-main: #1C2A38;
-            --text-muted: #627D98;
+            --bg-gradient: radial-gradient(circle at top left, #1E293B 0%, #0F172A 100%);
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
             --active-color: var(--opay-green);
         }
 
@@ -25,7 +26,7 @@
             margin: 0;
             height: 100vh;
             background: var(--bg-gradient);
-            font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -34,39 +35,43 @@
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            width: 360px;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            width: 400px;
             max-width: 100%;
-            padding: 35px 24px 28px 24px;
-            border-radius: 28px;
+            padding: 40px 28px 32px 28px;
+            border-radius: 24px;
             text-align: center;
-            box-shadow: 0 24px 48px rgba(10, 37, 64, 0.06), 0 1px 4px rgba(0, 0, 0, 0.01);
-            border: 1px solid rgba(255, 255, 255, 0.7);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             position: relative;
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s ease;
         }
 
+        .hidden {
+            display: none !important;
+        }
+
         .icon-container {
-            width: 64px;
-            height: 64px;
-            background: #F0F4F8;
-            border-radius: 50%;
+            width: 72px;
+            height: 72px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 0 auto 20px auto;
-            color: var(--primary);
-            font-size: 26px;
-            transition: all 0.3s ease;
+            margin: 0 auto 24px auto;
+            font-size: 28px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
         }
 
         h1 {
-            color: var(--primary);
-            font-size: 24px;
-            font-weight: 700;
-            margin: 0 0 8px 0;
+            color: var(--text-main);
+            font-size: 26px;
+            font-weight: 800;
+            margin: 0 0 10px 0;
             letter-spacing: -0.5px;
         }
 
@@ -74,22 +79,57 @@
             color: var(--text-muted);
             font-size: 14px;
             line-height: 1.6;
-            margin: 0 0 20px 0;
+            margin: 0 0 24px 0;
         }
 
-        /* Platform Selector Tabs */
+        /* Input Controls Setup */
+        .input-group {
+            margin-bottom: 24px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 16px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(15, 23, 42, 0.6);
+            font-size: 16px;
+            color: var(--text-main);
+            font-weight: 600;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .input-field:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(0, 212, 178, 0.2);
+        }
+
+        /* Platform Tabs Refreshed */
         .gateway-selector {
             display: flex;
-            background: #E2E8F0;
+            background: rgba(15, 23, 42, 0.8);
             padding: 4px;
             border-radius: 14px;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .gateway-option {
             flex: 1;
-            padding: 10px 0;
+            padding: 12px 0;
             font-size: 14px;
             font-weight: 700;
             color: var(--text-muted);
@@ -112,14 +152,74 @@
             border-radius: 10px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 1;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
 
+        /* Premium Account Info Frame */
+        .account-box {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 18px;
+            text-align: left;
+            margin-bottom: 24px;
+        }
+
+        .account-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .account-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .label-sm {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .val-md {
+            font-size: 14px;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .val-lg {
+            font-size: 22px;
+            font-weight: 800;
+            color: #FFFFFF;
+            letter-spacing: 1px;
+        }
+
+        .copy-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #FFFFFF;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .copy-btn.copied {
+            background: var(--opay-green);
+            border-color: var(--opay-green);
+        }
+
+        /* Modern Amount Display Frame */
         .amount-display {
-            background: linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 100%);
-            border: 1px dashed #CBD5E1;
-            padding: 16px 15px;
-            border-radius: 20px;
+            background: linear-gradient(180deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.8) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px 15px;
+            border-radius: 18px;
             margin-bottom: 24px;
         }
 
@@ -128,59 +228,62 @@
             text-transform: uppercase;
             letter-spacing: 1.5px;
             color: var(--text-muted);
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             font-weight: 700;
         }
 
         .amount-value {
-            font-size: 30px;
-            font-weight: 800;
-            color: var(--primary);
+            font-size: 34px;
+            font-weight: 900;
+            color: #FFFFFF;
             letter-spacing: -0.5px;
         }
 
-        .buttons {
-            height: 52px;
+        /* Balanced Grid Side-by-Side Button Layout */
+        .buttons-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
             position: relative;
-            display: flex;
-            justify-content: center;
-            gap: 14px;
-            margin-bottom: 20px;
         }
 
-        button {
+        button:not(.copy-btn) {
             border: none;
-            padding: 0 36px;
-            height: 52px;
+            height: 54px;
             border-radius: 16px;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+        }
+
+        #nextBtn {
+            background: linear-gradient(135deg, #00D4B2 0%, #00B87B 100%);
+            color: #0A2540;
+            box-shadow: 0 8px 20px rgba(0, 212, 178, 0.2);
         }
 
         #yesBtn {
-            background: var(--primary);
-            color: #FFFFFF;
-            box-shadow: 0 6px 16px rgba(10, 37, 64, 0.12);
-            width: 150px;
+            background: #FFFFFF;
+            color: #0F172A;
+            box-shadow: 0 4px 12px rgba(255,255,255,0.1);
         }
 
-        #yesBtn:hover {
+        #nextBtn:hover, #yesBtn:hover {
             transform: translateY(-2px);
-            background: #13375B;
+            opacity: 0.95;
         }
 
         #noBtn {
-            background: #F1F5F9;
-            color: var(--text-main);
-            position: absolute;
-            border: 1px solid #E2E8F0;
-            padding: 0 28px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #EF4444;
+            border: 1px solid rgba(239, 68, 68, 0.2);
         }
 
         #smallText {
@@ -194,9 +297,9 @@
         .spinner {
             width: 18px;
             height: 18px;
-            border: 2px solid rgba(255,255,255,0.3);
+            border: 2px solid rgba(0,0,0,0.1);
             border-radius: 50%;
-            border-top-color: #fff;
+            border-top-color: #0F172A;
             animation: spin 0.8s linear infinite;
             display: none;
         }
@@ -209,38 +312,84 @@
 <body>
 
     <div class="card" id="cardContainer">
-        <div class="icon-container" id="cardIcon">💎</div>
-        <h1>Priority Request</h1>
-        <p>An authorized request requires your immediate attention and approval.</p>
         
-        <!-- Premium Method Switcher -->
-        <div class="gateway-selector">
-            <div class="gateway-option active" id="optOPay" onclick="switchGateway('opay')">OPay</div>
-            <div class="gateway-option" id="optPalmPay" onclick="switchGateway('palmpay')">PalmPay</div>
-            <div class="selector-bg" id="selectorBg"></div>
+        <!-- STEP 1: INITIALIZE NAME SCREEN -->
+        <div id="stepName">
+            <div class="icon-container" style="color: var(--accent);">🔐</div>
+            <h1>Access Portal</h1>
+            <p>Enter your profile tracking signature label securely below to initialize gateway interface.</p>
+            
+            <div class="input-group">
+                <label for="userName">Profile Name</label>
+                <input type="text" id="userName" class="input-field" placeholder="e.g. Destiny" autocomplete="off">
+            </div>
+
+            <button id="nextBtn" onclick="proceedToRequest()">Initialize Portal</button>
         </div>
 
-        <div class="amount-display">
-            <div class="amount-title">Requested Amount</div>
-            <div class="amount-value">₦2,000,000.00</div>
+        <!-- STEP 2: MAIN SIDE-BY-SIDE SIDE GRID SCREEN -->
+        <div id="stepTransaction" class="hidden">
+            <div class="icon-container" style="color: #E2E8F0;">⚡</div>
+            <h1>Priority Request</h1>
+            <p>Immediate digital verification requested. Verify payment specifications below.</p>
+            
+            <!-- Platform Segmented Tabs Switcher -->
+            <div class="gateway-selector">
+                <div class="gateway-option active" id="optOPay" onclick="switchGateway('opay')">OPay App</div>
+                <div class="gateway-option" id="optPalmPay" onclick="switchGateway('palmpay')">PalmPay App</div>
+                <div class="selector-bg" id="selectorBg"></div>
+            </div>
+
+            <!-- Ledger Box Structure -->
+            <div class="account-box">
+                <div class="account-row">
+                    <div>
+                        <div class="label-sm">Destination Number</div>
+                        <div class="val-lg" id="accNum">8081682884</div>
+                    </div>
+                    <button class="copy-btn" id="copyBtn" onclick="copyAccount()">Copy</button>
+                </div>
+                <div class="account-row">
+                    <div>
+                        <div class="label-sm">Beneficiary Name</div>
+                        <div class="val-md">Emmanuel Nwaije Ikemefuna</div>
+                    </div>
+                    <div>
+                        <div class="label-sm" style="text-align: right;">Target Node</div>
+                        <div class="val-md" id="bankLabel" style="text-align: right;">OPAY</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="amount-display">
+                <div class="amount-title">Total Allocated Amount</div>
+                <div class="amount-value">₦2,000,000.00</div>
+            </div>
+
+            <p style="color: #FFFFFF; font-weight: 600; margin-bottom: 24px;" id="targetPrompt">
+                Will you sign this approval? 😹
+            </p>
+
+            <div class="buttons-grid">
+                <button id="yesBtn">
+                    <span class="spinner" id="btnSpinner"></span>
+                    <span id="btnText">Approve ✨</span>
+                </button>
+                <!-- Decline is accurately located right here to the right of the screen -->
+                <button id="noBtn">Decline</button>
+            </div>
         </div>
 
-        <p style="color: var(--primary); font-weight: 600; margin-bottom: 24px;">
-            Destiny, will you approve this transfer? 😹
-        </p>
-
-        <div class="buttons">
-            <button id="yesBtn">
-                <span class="spinner" id="btnSpinner"></span>
-                <span id="btnText">Approve ✨</span>
-            </button>
-            <button id="noBtn">Decline</button>
-        </div>
-
-        <p id="smallText">Secured premium transaction gateway.</p>
+        <!-- CONTEXT CARD FOOTER STATUS LINE -->
+        <p id="smallText">Secured core framework node link.</p>
     </div>
 
     <script>
+        const stepName = document.getElementById('stepName');
+        const stepTransaction = document.getElementById('stepTransaction');
+        const userNameInput = document.getElementById('userName');
+        const targetPrompt = document.getElementById('targetPrompt');
+        
         const yesBtn = document.getElementById('yesBtn');
         const noBtn = document.getElementById('noBtn');
         const smallText = document.getElementById('smallText');
@@ -250,11 +399,12 @@
         const selectorBg = document.getElementById('selectorBg');
         const optOPay = document.getElementById('optOPay');
         const optPalmPay = document.getElementById('optPalmPay');
+        const bankLabel = document.getElementById('bankLabel');
 
         let noCount = 0;
         let selectedGateway = 'opay';
+        let targetName = 'User';
 
-        // Links Object structured elegantly for target routing
         const links = {
             opay: {
                 ios: "https://apps.apple.com/ng/app/opay-beyond-banking/id1463776084",
@@ -262,28 +412,62 @@
             },
             palmpay: {
                 ios: "https://apps.apple.com/ng/app/palmpay-transfers-bills/id1479656820",
-                android: "https://play.google.com/store/apps/details?id=com.transsnet.palmpay" // Official PalmPay PlayStore fallback
+                android: "https://play.google.com/store/apps/details?id=com.transsnet.palmpay"
             }
         };
 
-        // Smoothly switches accent branding colors between OPay green and PalmPay purple
+        function proceedToRequest() {
+            const val = userNameInput.value.trim();
+            if(!val) {
+                userNameInput.style.borderColor = '#EF4444';
+                return;
+            }
+            targetName = val;
+            targetPrompt.innerHTML = `${targetName}, will you approve this transfer? 😹`;
+            
+            stepName.classList.add('hidden');
+            stepTransaction.classList.remove('hidden');
+            smallText.textContent = "Awaiting execution key credentials...";
+        }
+
+        userNameInput.addEventListener('input', () => {
+            userNameInput.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+        });
+
         function switchGateway(gateway) {
-            if(noBtn.style.position === 'fixed') return; // Disable switching if button is already running away
+            if(noBtn.style.position === 'fixed') return; 
             selectedGateway = gateway;
             if (gateway === 'opay') {
                 optOPay.classList.add('active');
                 optPalmPay.classList.remove('active');
                 selectorBg.style.left = '4px';
+                bankLabel.textContent = "OPAY";
                 document.documentElement.style.setProperty('--active-color', 'var(--opay-green)');
             } else {
                 optPalmPay.classList.add('active');
                 optOPay.classList.remove('active');
                 selectorBg.style.left = 'calc(50% + 0px)';
+                bankLabel.textContent = "PALMPAY";
                 document.documentElement.style.setProperty('--active-color', 'var(--palmpay-purple)');
             }
         }
 
-        // Hardware Runaway Configuration
+        function copyAccount() {
+            const numText = document.getElementById('accNum').textContent;
+            navigator.clipboard.writeText(numText).then(() => {
+                const btn = document.getElementById('copyBtn');
+                btn.textContent = "Copied!";
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = "Copy";
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Copy initialization error: ', err);
+            });
+        }
+
+        // Active Repositioning Framework Agent
         function moveButton() {
             const maxLeft = window.innerWidth - noBtn.offsetWidth - 20;
             const maxTop = window.innerHeight - noBtn.offsetHeight - 20;
@@ -292,22 +476,23 @@
             const randomTop = Math.max(20, Math.floor(Math.random() * maxTop));
 
             noBtn.style.position = 'fixed';
+            noBtn.style.zIndex = '9999';
             noBtn.style.left = randomLeft + 'px';
             noBtn.style.top = randomTop + 'px';
 
             noCount++;
 
             if (noCount === 1) {
-                smallText.textContent = "Error: Decline function unresponsive. Try again? 😏";
+                smallText.textContent = "System alert: Decline protocol bypassed. 😏";
                 smallText.style.color = "#EF4444";
             } else if (noCount === 2) {
-                smallText.textContent = "System alert: Denying this request is prohibited. 🛑";
+                smallText.textContent = `Error: Cannot register ${targetName}'s termination call. 🛑`;
             } else if (noCount === 3) {
                 smallText.textContent = "Come on, it's just a small 2 million! Click Approve 💸";
             } else if (noCount === 4) {
-                smallText.textContent = "Decline button is officially broken. 😹";
+                smallText.textContent = "Decline button status: Broken. 😹";
             } else if (noCount >= 5) {
-                smallText.textContent = "Give up already. Only 'Approve' works! ✨";
+                smallText.textContent = `Give up, ${targetName}. Only 'Approve' works! ✨`;
             }
         }
 
@@ -317,17 +502,10 @@
             moveButton();
         });
 
-        // Smart Platform Detection Agent
         function getTargetUrl() {
             const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-            // Checks for iPad, iPhone, or iPod devices
             const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
-            
-            if (isIOS) {
-                return links[selectedGateway].ios;
-            } else {
-                return links[selectedGateway].android;
-            }
+            return isIOS ? links[selectedGateway].ios : links[selectedGateway].android;
         }
 
         yesBtn.addEventListener('click', () => {
@@ -335,8 +513,8 @@
             if(noBtn) noBtn.style.display = 'none';
             
             btnSpinner.style.display = 'block';
-            btnText.textContent = "Processing...";
-            smallText.textContent = "Routing secure interface...";
+            btnText.textContent = "Authorizing...";
+            smallText.textContent = "Encrypting execution transaction packet...";
             smallText.style.color = "var(--text-muted)";
 
             const targetStoreUrl = getTargetUrl();
@@ -348,26 +526,28 @@
                 cardContainer.style.transform = "scale(1.02)";
                 
                 cardContainer.innerHTML = `
-                    <div class="icon-container" style="background: rgba(10,37,64,0.05); color: ${brandColor}; box-shadow: none;">✅</div>
-                    <h1>Transfer Authorized! 😍</h1>
-                    <p>Premium request successfully approved by Destiny.</p>
+                    <div class="icon-container" style="background: rgba(255,255,255,0.05); color: ${brandColor}; border-color: ${brandColor};">💝</div>
+                    <h1>Signature Registered! 😍</h1>
+                    <p>Transaction authorization pipeline completed successfully for ${targetName}.</p>
 
-                    <div class="amount-display" style="background: #F8FAFC; border-color: #CBD5E1;">
-                        <div class="amount-title">Status</div>
+                    <div class="amount-display" style="background: rgba(15, 23, 42, 0.6); border-color: rgba(255,255,255,0.1);">
+                        <div class="amount-title">Network Response</div>
                         <div class="amount-value" style="color: ${brandColor}; font-size: 22px;">
-                            Redirecting to ${appName}...
+                            Opening ${appName}...
                         </div>
                     </div>
 
-                    <p style="color: var(--text-muted); font-size: 14px; margin: 0;">
-                        Opening your secure app environment to complete the ₦2,000,000 payment...
+                    <p style="color: #FFFFFF; font-size: 15px; font-weight: 600; margin: 0 0 10px 0; line-height: 1.5;">
+                        hope say you don copy my account number😭😂💝
+                    </p>
+                    <p style="color: var(--text-muted); font-size: 13px; margin: 0;">
+                        Routing parameters safely to client store terminal...
                     </p>
                 `;
 
-                // Fires off to the targeted store destination link natively
                 setTimeout(() => {
                     window.location.href = targetStoreUrl;
-                }, 1800);
+                }, 2200);
 
             }, 1500);
         });
