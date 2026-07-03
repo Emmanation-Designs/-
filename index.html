@@ -8,6 +8,7 @@
         :root {
             --primary: #0A2540; /* Premium Deep Navy */
             --accent: #00D4B2;  /* Luxury Mint/Cyan Accent */
+            --opay-green: #00B87B; /* Official OPay Green */
             --bg-gradient: linear-gradient(135deg, #F4F7FA 0%, #E9EFF5 100%);
             --text-main: #1C2A38;
             --text-muted: #627D98;
@@ -133,6 +134,27 @@
             min-height: 20px;
             font-weight: 500;
         }
+
+        /* OPay Link Button styling */
+        .opay-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--opay-green);
+            color: white;
+            text-decoration: none;
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            margin-top: 15px;
+            box-shadow: 0 4px 14px rgba(0, 184, 123, 0.3);
+            transition: transform 0.2s ease;
+        }
+
+        .opay-link:hover {
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
@@ -144,7 +166,7 @@
         
         <div class="amount-display">
             <div class="amount-title">Requested Amount</div>
-            <div class="amount-value">2,000.00</div>
+            <div class="amount-value">₦2,000,000.00</div>
         </div>
 
         <p style="color: var(--primary); font-weight: 600; margin-bottom: 20px;">
@@ -184,13 +206,13 @@
                 smallText.textContent = "Error: Decline function unresponsive. Try again? 😏";
                 smallText.style.color = "#EF4444";
             } else if (noCount === 2) {
-                smallText.textContent = "System alert: Denying this request breaks my heart. 💔";
+                smallText.textContent = "System alert: Denying this request is prohibited. 🛑";
             } else if (noCount === 3) {
-                smallText.textContent = "Come on, it's just 2k! Click Approve 💸";
+                smallText.textContent = "Come on, it's just a small 2 million! Click Approve 💸";
             } else if (noCount === 4) {
-                smallText.textContent = "Decline button is officially on strike. 🛑";
+                smallText.textContent = "Decline button is officially broken. 😹";
             } else if (noCount >= 5) {
-                smallText.textContent = "Fine, I disabled the button. Only 'Approve' works now! ✨";
+                smallText.textContent = "Give up already. Only 'Approve' works! ✨";
             }
         }
 
@@ -201,16 +223,23 @@
         });
 
         yesBtn.addEventListener('click', () => {
-            cardContainer.style.border = "1px solid var(--accent)";
+            cardContainer.style.border = "1px solid var(--opay-green)";
             cardContainer.innerHTML = `
-                <div class="icon-container" style="background: rgba(0, 212, 178, 0.1); color: var(--accent);">✅</div>
+                <div class="icon-container" style="background: rgba(0, 184, 123, 0.1); color: var(--opay-green);">✅</div>
                 <h1>Transfer Authorized! 😍</h1>
-                <p>Premium request successfully cleared by Destiny.</p>
+                <p>Premium request successfully approved by Destiny.</p>
+                
                 <div class="amount-display" style="background: #F0FDF4; border-color: #BBF7D0;">
                     <div class="amount-title" style="color: #16A34A;">Status</div>
-                    <div class="amount-value" style="color: #16A34A; font-size: 22px;">Awaiting 2k Cash 😹💸</div>
+                    <div class="amount-value" style="color: #16A34A; font-size: 22px;">Pending OPay Clearance</div>
                 </div>
-                <p style="color: var(--text-muted); font-size: 14px;">Thank you for your elite generosity!</p>
+
+                <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 10px;">
+                    Click below to finalize the ₦2,000,000 payment inside your app!
+                </p>
+
+                <!-- This link uses the official OPay mobile app protocol to open the app -->
+                <a href="opay://" class="opay-link">Proceed to your OPay 💸</a>
             `;
         });
     </script>
